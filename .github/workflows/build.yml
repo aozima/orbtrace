@@ -17,7 +17,7 @@ jobs:
       - run: python3 -m pip install pdm meson ninja
       - run: pdm install
       - run: pdm run orbtrace_builder --platform orbtrace_mini --build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: orbtrace_mini
           path: build/
@@ -34,7 +34,7 @@ jobs:
       - run: python3 -m pip install pdm meson ninja
       - run: pdm install
       - run: pdm run orbtrace_builder --platform orbtrace_mini --profile dfu --build 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: orbtrace_mini_dfu
           path: build/
@@ -51,7 +51,7 @@ jobs:
       - run: python3 -m pip install pdm meson ninja
       - run: pdm install
       - run: pdm run orbtrace_builder --platform orbtrace_mini --profile test --build 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: orbtrace_mini_test
           path: build/
