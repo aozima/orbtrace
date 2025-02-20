@@ -12,7 +12,14 @@ jobs:
         with:
           submodules: recursive 
       - run: git fetch --prune --unshallow --no-recurse-submodules
-      - uses: YosysHQ/setup-oss-cad-suite@v2
+      - run: |
+          ls
+          pwd
+          apt update
+          apt install -y wget tar
+          wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-11-01/oss-cad-suite-linux-x64-20241101.tgz
+          mkdir -pv /home/runner/work/_temp/oss-cad-suite
+          tar xz --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/oss-cad-suite -f oss-cad-suite-linux-x64-20241101.tgz
       - uses: gregdavill/setup-riscv-gnu-toolchain@v2.0
       - run: python3 -m pip install pdm meson ninja
       - run: pdm install
@@ -22,36 +29,3 @@ jobs:
           name: orbtrace_mini
           path: build/
 
-  orbtrace_mini_dfu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive 
-      - run: git fetch --prune --unshallow --no-recurse-submodules
-      - uses: YosysHQ/setup-oss-cad-suite@v2
-      - uses: gregdavill/setup-riscv-gnu-toolchain@v2.0
-      - run: python3 -m pip install pdm meson ninja
-      - run: pdm install
-      - run: pdm run orbtrace_builder --platform orbtrace_mini --profile dfu --build 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: orbtrace_mini_dfu
-          path: build/
-  
-  orbtrace_mini_test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive 
-      - run: git fetch --prune --unshallow --no-recurse-submodules
-      - uses: YosysHQ/setup-oss-cad-suite@v2
-      - uses: gregdavill/setup-riscv-gnu-toolchain@v2.0
-      - run: python3 -m pip install pdm meson ninja
-      - run: pdm install
-      - run: pdm run orbtrace_builder --platform orbtrace_mini --profile test --build 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: orbtrace_mini_test
-          path: build/
