@@ -21,8 +21,7 @@ jobs:
         with:
           name: orbtrace_mini
           path: |
-            build/orbtrace_mini/gateware/orbtrace_mini.bit
-            build/orbtrace_mini/gateware/csr.csv
+            build/
 
   orbtrace_mini_dfu:
     runs-on: ubuntu-latest
